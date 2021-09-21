@@ -12,7 +12,17 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(event);
+
+    if (!name) {
+      // display alert
+    } else if (name && isEditing) {
+      // deal with edit
+    } else {
+      // deal with item creation
+      const newItem = { id: new Date().getTime().toString(), title: name };
+      setList([...list, newItem]);
+      setName("");
+    }
   };
 
   return (
@@ -29,14 +39,16 @@ function App() {
             onChange={(event) => setName(event.target.value)}
           />
           <button type="submit" className="submit-btn">
-            {isEditing ? "edit" : "submit"}
+            {isEditing ? "edit" : "add"}
           </button>
         </div>
       </form>
-      <div className="grocery-container">
-        <List></List>
-        <button className="clear-btn">clear items</button>
-      </div>
+      {list.length > 0 && (
+        <div className="grocery-container">
+          <List items={list} />
+          <button className="clear-btn">clear items</button>
+        </div>
+      )}
     </section>
   );
 }
