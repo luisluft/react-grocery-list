@@ -24,9 +24,11 @@ function App() {
       // deal with edit
     } else {
       // deal with item creation
+
       const newItem = { id: new Date().getTime().toString(), title: name };
       setList([...list, newItem]);
       setName("");
+      showAlert(true, "success", "item added to the list");
     }
   };
 
