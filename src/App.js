@@ -3,9 +3,16 @@ import List from "./List";
 import Alert from "./Alert";
 import { FaLeaf } from "react-icons/fa";
 
+const getLocalStorage = () => {
+  let localList = localStorage.getItem("list");
+
+  if (localList) return JSON.parse(localList);
+  else return [];
+};
+
 function App() {
   const [name, setName] = useState("");
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(getLocalStorage());
   const [isEditing, setIsEditing] = useState(false);
   const [editID, setEditID] = useState(null);
   const [alert, setAlert] = useState({
@@ -13,6 +20,10 @@ function App() {
     message: "",
     type: "",
   });
+
+  useEffect(() => {
+    localStorage.setItem("list", JSON.stringify(list));
+  }, [list]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -68,7 +79,10 @@ function App() {
     <section className="section-center">
       <form className="grocery-form" onSubmit={handleSubmit}>
         {alert.show && <Alert {...alert} showAlert={showAlert} list={list} />}
-        <h3>grocery list</h3>
+        <h3>
+          <FaLeaf /> &nbsp; grocery list
+        </h3>
+
         <div className="form-control">
           <input
             type="text"
